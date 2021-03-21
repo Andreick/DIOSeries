@@ -9,27 +9,27 @@ namespace Classes
 
         public void Delete(int id)
         {
-            
+            serieList[id].Delete();
         }
 
-        public void Insert(Serie entity)
+        public void Insert(Serie serie)
         {
-            throw new System.NotImplementedException();
+            serieList.Add(serie);
         }
 
         public List<Serie> List()
         {
-            throw new System.NotImplementedException();
+            return serieList;
         }
 
         public int NextId()
         {
-            throw new System.NotImplementedException();
+            return serieList.Count;
         }
 
         public Serie ReturnById(int id)
         {
-            throw new System.NotImplementedException();
+            return serieList[id];
         }
 
         public void Update(int id, Serie serie)
