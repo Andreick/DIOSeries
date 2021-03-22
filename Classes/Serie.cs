@@ -1,5 +1,5 @@
 using System;
-using Enum;
+using Enums;
 
 namespace Classes
 {

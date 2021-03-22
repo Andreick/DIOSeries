@@ -1,8 +1,8 @@
-namespace Enum
+namespace Enums
 {
     public enum Genre
     {
-        Action,
+        Action = 1,
         Adventure,
         Comedy,
         Documentary,
