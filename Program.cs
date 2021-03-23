@@ -48,24 +48,55 @@ namespace DIOSeries
 
         private static void ViewSerie()
         {
-            throw new NotImplementedException();
+            int id;
+
+            Console.WriteLine("View series");
+
+            Console.Write("Enter the series id: ");
+                
+            if (!(int.TryParse(Console.ReadLine(), out id) && id < repository.NextId()))
+            {
+                Console.WriteLine();
+                Console.WriteLine("- Invalid id, try again.");
+                return;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine(repository.ReturnById(id));
         }
 
         private static void DeleteSerie()
         {
-            throw new NotImplementedException();
+            int id;
+
+            Console.WriteLine("Delete series");
+
+            Console.Write("Enter the series id: ");
+                
+            if (!(int.TryParse(Console.ReadLine(), out id) && id < repository.NextId()))
+            {
+                Console.WriteLine();
+                Console.WriteLine("- Invalid id, try again.");
+                return;
+            }
+
+            repository.Delete(id);
         }
 
         private static void UpdateSerie()
         {
-            throw new NotImplementedException();
-        }
+            int id, genre, year;
 
-        private static void InsertSerie()
-        {
-            Console.WriteLine("Insert new series");
+            Console.WriteLine("Update series");
 
-            int genre, year;
+            Console.Write("Enter the series id: ");
+                
+            if (!(int.TryParse(Console.ReadLine(), out id) && id < repository.NextId()))
+            {
+                Console.WriteLine();
+                Console.WriteLine("- Invalid id, try again.");
+                return;
+            }
 
             do
             {
@@ -74,7 +105,61 @@ namespace DIOSeries
                     Console.WriteLine($"{i} - {Enum.GetName(typeof(Genre), i)}");
                 }
 
-                Console.WriteLine("Enter the genre between the options above: ");
+                Console.Write("Enter the genre between the options above: ");
+
+                if (int.TryParse(Console.ReadLine(), out genre) && Enum.IsDefined(typeof(Genre), genre))
+                {
+                    break;
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("- Invalid option, try again.");
+
+            } while(true);
+
+            Console.Write("Enter the series title: ");
+            string title = Console.ReadLine();
+
+            do
+            {
+                Console.Write("Enter the series release year: ");
+                
+                if (int.TryParse(Console.ReadLine(), out year))
+                {
+                    break;
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("- Invalid year, try again.");
+
+            } while(true);
+
+            Console.Write("Enter the series description: ");
+            string description = Console.ReadLine();
+
+            Serie updatedSerie = new Serie(id: id,
+                                        genre: (Genre)genre,
+                                        title: title,
+                                        year: year,
+                                        description: description);
+
+            repository.Update(id, updatedSerie);
+        }
+
+        private static void InsertSerie()
+        {
+            int genre, year;
+
+            Console.WriteLine("Insert new series");
+
+            do
+            {
+                foreach (int i in Enum.GetValues(typeof(Genre)))
+                {
+                    Console.WriteLine($"{i} - {Enum.GetName(typeof(Genre), i)}");
+                }
+
+                Console.Write("Enter the genre between the options above: ");
 
                 if (int.TryParse(Console.ReadLine(), out genre) && Enum.IsDefined(typeof(Genre), genre))
                 {
@@ -85,12 +170,12 @@ namespace DIOSeries
 
             } while(true);
 
-            Console.WriteLine("Enter the series title");
+            Console.Write("Enter the series title: ");
             string title = Console.ReadLine();
 
             do
             {
-                Console.WriteLine("Enter the series release year");
+                Console.Write("Enter the series release year: ");
                 
                 if (int.TryParse(Console.ReadLine(), out year))
                 {
@@ -101,7 +186,7 @@ namespace DIOSeries
 
             } while(true);
 
-            Console.WriteLine("Enter the series description: ");
+            Console.Write("Enter the series description: ");
             string description = Console.ReadLine();
 
             Serie newSerie = new Serie(id: repository.NextId(),
@@ -127,7 +212,7 @@ namespace DIOSeries
 
             foreach (var serie in list)
             {
-                Console.WriteLine($"#ID {serie.Id}: - {serie.Title}");
+                Console.WriteLine($"#ID {serie.Id}: - {serie.Title} {(serie.IsDeleted ? "*Deleted*" : "")}");
             }
         }
 

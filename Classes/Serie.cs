@@ -36,6 +36,7 @@ namespace Classes
             str += $"Title: {Title}{Environment.NewLine}";
             str += $"Description: {Description}{Environment.NewLine}";
             str += $"Release Year: {Year}{Environment.NewLine}";
+            str += $"Deleted: {IsDeleted}";
             return str;
         }
     }
